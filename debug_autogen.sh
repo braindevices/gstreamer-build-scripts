@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 set -e
 target_tag="$1"
+only_gstreamer="$2"
 build_root="${HOME}/Projects/gstreamer/builds"
 src_root="${HOME}/Projects/gstreamer"
 export PKG_CONFIG_PATH="${HOME}/opt/gstreamer-all/lib/pkgconfig:${PKG_CONFIG_PATH}"
 echo "target tag/branch=${target_tag}"
-modules=(
-#gstreamer
-gst-plugins-base
-gst-plugins-good
-gst-plugins-ugly
-gst-plugins-bad
-gst-libav
-)
+if [ ${only_gstreamer} = "yes" ]
+then
+    modules=(
+        gstreamer
+    )
+else
+    modules=(
+        gst-plugins-base
+        gst-plugins-good
+        gst-plugins-ugly
+        gst-plugins-bad
+        gst-libav
+        gst-rtsp-server
+    )
+fi
 for module in "${modules[@]}"
 do
     module_path="${src_root}/${module}"

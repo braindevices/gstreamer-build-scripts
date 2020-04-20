@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 target_tag="$1"
+only_gstreamer="$2"
 datestr="$(date +"%Y%m%d-%H%M%S")"
 logfile="${datestr}.log"
 build_root="${HOME}/Projects/gstreamer/builds"
@@ -9,24 +10,31 @@ install_prefix="${HOME}/opt/gstreamer-all"
 
 export PKG_CONFIG_PATH="${install_prefix}/lib/pkgconfig:${PKG_CONFIG_PATH}"
 echo "target tag/branch=${target_tag}"
-modules=(
-# gstreamer
-gst-plugins-base
-gst-plugins-good
-gst-plugins-ugly
-gst-plugins-bad
-gst-libav
-gst-rtsp-server
-)
-config_flags=(
-# ""
-"--enable-pango --disable-wayland --disable-gtk-doc"
-""
-""
-"--enable-pango"
-""
-""
-)
+if [ ${only_gstreamer} = "yes" ]
+then
+    modules=(
+        gstreamer
+    )
+    config_flags=("")
+else
+    modules=(
+        gst-plugins-base
+        gst-plugins-good
+        gst-plugins-ugly
+        gst-plugins-bad
+        gst-libav
+        gst-rtsp-server
+    )
+    config_flags=(
+        "--enable-pango --disable-wayland --disable-gtk-doc"
+        ""
+        ""
+        "--enable-pango"
+        ""
+        ""
+    )
+fi
+
 for index in ${!modules[*]}
 do
     echo "index=$index"
