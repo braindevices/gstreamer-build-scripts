@@ -1,25 +1,36 @@
 #!/usr/bin/env bash
 set -e
 target_tag="$1"
-only_gstreamer="$2"
-build_root="${HOME}/Projects/gstreamer/builds"
-src_root="${HOME}/Projects/gstreamer"
+build_repo="$2"
+build_root="/data/LingBuilds/gstreamer/builds"
+src_root="/data/LingBuilds/gstreamer/repos"
 export PKG_CONFIG_PATH="${HOME}/opt/gstreamer-all/lib/pkgconfig:${PKG_CONFIG_PATH}"
 echo "target tag/branch=${target_tag}"
-if [ ${only_gstreamer} = "yes" ]
+if [ ${build_repo} = "gstreamer" ]
 then
     modules=(
         gstreamer
     )
-else
+elif [ ${build_repo} = "pluginbase" ]
+then
     modules=(
         gst-plugins-base
+    )
+elif [ ${build_repo} = "plugins" ]
+then
+    modules=(
         gst-plugins-good
         gst-plugins-ugly
         gst-plugins-bad
         gst-libav
+    )
+elif [ ${build_repo} = "rtsp" ]
+then
+    modules=(
         gst-rtsp-server
     )
+else
+    exit 1
 fi
 for module in "${modules[@]}"
 do

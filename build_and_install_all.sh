@@ -1,40 +1,53 @@
 #!/usr/bin/env bash
 set -e
 target_tag="$1"
-only_gstreamer="$2"
+build_repo="$2"
 datestr="$(date +"%Y%m%d-%H%M%S")"
 logfile="${datestr}.log"
-build_root="${HOME}/Projects/gstreamer/builds"
-src_root="${HOME}/Projects/gstreamer"
+build_root="/data/LingBuilds/gstreamer/builds"
+src_root="/data/LingBuilds/gstreamer/repos"
 install_prefix="${HOME}/opt/gstreamer-all"
 
 export PKG_CONFIG_PATH="${install_prefix}/lib/pkgconfig:${PKG_CONFIG_PATH}"
 echo "target tag/branch=${target_tag}"
-if [ ${only_gstreamer} = "yes" ]
+
+if [ ${build_repo} = "gstreamer" ]
 then
     modules=(
         gstreamer
     )
     config_flags=("")
-else
+elif [ ${build_repo} = "pluginbase" ]
+then
     modules=(
         gst-plugins-base
+    )
+    config_flags=(
+        "--enable-pango --disable-wayland --disable-gtk-doc"
+    )
+elif [ ${build_repo} = "plugins" ]
+then
+    modules=(
         gst-plugins-good
         gst-plugins-ugly
         gst-plugins-bad
         gst-libav
-        gst-rtsp-server
     )
     config_flags=(
-        "--enable-pango --disable-wayland --disable-gtk-doc"
         ""
         ""
         "--enable-pango"
         ""
-        ""
     )
+elif [ ${build_repo} = "rtsp" ]
+then
+    modules=(
+        gst-rtsp-server
+    )
+    config_flags=("")
+else
+    exit 1
 fi
-
 for index in ${!modules[*]}
 do
     echo "index=$index"
