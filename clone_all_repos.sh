@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -e
-src_root="/data/LingBuilds/gstreamer/repos"
+
+./gst_check_env.sh
+
+src_root="${GST_SRC_ROOT}"
 cd "${src_root}"
-modules="gstreamer gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav gst-rtsp-server"
+modules="${GST_REPO_NAMES}"
 for module in ${modules}; do
   git clone https://gitlab.freedesktop.org/gstreamer/$module ;
 done

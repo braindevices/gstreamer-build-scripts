@@ -4,11 +4,11 @@ target_tag="$1"
 build_repo="$2"
 datestr="$(date +"%Y%m%d-%H%M%S")"
 logfile="${datestr}.log"
-build_root="/data/LingBuilds/gstreamer/builds"
-src_root="/data/LingBuilds/gstreamer/repos"
-install_prefix="${HOME}/opt/gstreamer-all"
+build_root="${GST_BUILD_ROOT}"
+src_root="${GST_SRC_ROOT}"
+install_prefix="${GST_INSTALL_PATH}"
 
-export PKG_CONFIG_PATH="${install_prefix}/lib/pkgconfig:${PKG_CONFIG_PATH}"
+export PKG_CONFIG_PATH="${GST_INSTALL_PATH}/lib/pkgconfig:${PKG_CONFIG_PATH}"
 echo "target tag/branch=${target_tag}"
 
 if [ ${build_repo} = "gstreamer" ]
