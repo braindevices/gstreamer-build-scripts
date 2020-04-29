@@ -41,6 +41,9 @@ meson_flags_ar=(
     "-Dbad=enabled"
     "-Dlibav=enabled"
     "-Drtsp_server=enabled"
+    "-Dges=disabled"
+    "-Domx=disabled"
+    "-Drs=disabled"
 )
 meson_opts="$(join_by " " "${meson_flags_ar[@]}")"
 echo "meson_opts=${meson_opts}"
