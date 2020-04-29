@@ -10,14 +10,17 @@ reset_before_checkout="$2"
 
 src_root="${GST_SRC_ROOT}"
 cd "${src_root}"
-if [ ! -d gst-build ]
+
+module="gst-build"
+if [ ! -d "${module}" ]
 then
-    git clone https://gitlab.freedesktop.org/gstreamer/gst-build
+    git clone https://gitlab.freedesktop.org/gstreamer/"${module}"
 fi
 
 cd "${module}"
 git fetch origin
 if [ "${reset_before_checkout}" == "yes" ]
+then
     git reset --hard
 fi
 git checkout "${target_tag}"
