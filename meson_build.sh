@@ -72,3 +72,4 @@ then
 fi
 ninja -v -C "${build_path}"
 meson install -C "${build_path}"
+./create_gst_env.sh
