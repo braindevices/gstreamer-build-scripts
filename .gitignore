@@ -13,4 +13,4 @@
 *.npz
 .idea
 __pycache__
-gst_build_env.sh
+#gst_build_env.sh
