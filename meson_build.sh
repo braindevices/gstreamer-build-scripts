@@ -4,7 +4,7 @@ set -e
 function join_by { local d=$1; shift; echo -n "$1"; shift; printf "%s" "${@/#/$d}"; }
 
 ./gst_check_env.sh
-
+script_path="$(realpath .)"
 target_tag="$1"
 echo "target tag/branch=${target_tag}"
 
@@ -44,6 +44,7 @@ meson_flags_ar=(
     "-Dges=disabled"
     "-Domx=disabled"
     "-Drs=disabled"
+    "-Dgtk_doc=disabled"
 )
 meson_opts="$(join_by " " "${meson_flags_ar[@]}")"
 echo "meson_opts=${meson_opts}"
@@ -71,3 +72,4 @@ then
 fi
 ninja -v -C "${build_path}"
 meson install -C "${build_path}"
+${script_path}/create_gst_env.sh
