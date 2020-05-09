@@ -11,8 +11,6 @@ echo "target tag/branch=${target_tag}"
 run_config="$2"
 setup_opts="$3"
 
-
-
 datestr="$(date +"%Y%m%d-%H%M%S")"
 logfile="${datestr}.log"
 build_root="${GST_BUILD_ROOT}"
@@ -61,12 +59,13 @@ else
 fi
 if [ ${run_config} = yes ]
 then
+${MESON_PATH} --version | tee -a "${meson_conf_log}"
 # strangly meson won't exit with errcode, even if it fails the setup
-    meson setup ${setup_opts} \
+    ${MESON_PATH} setup ${setup_opts} \
         --prefix "${install_prefix}" \
         ${meson_opts} \
         "${build_path}" 2>&1 \
-        | tee "${meson_conf_log}"
+        | tee -a "${meson_conf_log}"
 
     echo "Config Done!"
 fi
